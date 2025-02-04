@@ -1,7 +1,7 @@
 import multer from "multer"
 
 
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({    //storing the files on the disk storage.. we can also store files on memory storage if we want
     destination: function (req, file, cb) {     //cb stands for callback
       cb(null, "./public/temp")
     },
@@ -15,4 +15,4 @@ const storage = multer.diskStorage({
   
   export const upload = multer({ 
     storage, 
-})
+}) 

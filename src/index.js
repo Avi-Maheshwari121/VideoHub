@@ -10,7 +10,7 @@ dotenv.config({
 
 const portListen = process.env.PORT || 8000;
 
-connectDB()
+connectDB()   //since it is a async function then it will return a promise hence has to be resolved.
   .then(() => {
     //listening to errors before app.listen
     app.on("error", (err) => {
