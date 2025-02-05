@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     //To check if the username or email already exists in the database or not. using the or operator $ to check if any of those 2 exist 
 
-    const existUser = User.findOne({
+    const existUser = await User.findOne({
       $or: [{ username }, { email }]
 
     })
@@ -49,8 +49,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
     //multer gives us req.files ka access just how express gives us the excess of req.body
 
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const avatarLocalPath = req.files?.avatar[0]?.path; //handled array below.
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path;  
+    //we cannot use the above method to extract the path of the current image because if it is undefined then it will excess .path of undefined which will throw a error. optional chaining. use classic if-else
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0)
+    {
+      coverImageLocalPath = req.files.coverImage[0].path;
+    }
+
 
     if(!avatarLocalPath)
     {
