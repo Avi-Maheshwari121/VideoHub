@@ -98,3 +98,4 @@ userSchema.methods.generateAccessToken = function(){
 
 
 export const User = mongoose.model("User", userSchema);
+//this User will be imported and other files and will act as a SPOC for other files to communicate with the model in the database.

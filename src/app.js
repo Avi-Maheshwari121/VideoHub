@@ -31,7 +31,8 @@ import userRouter from "./routes/user.routes.js";
 //routes declaration
 
 app.use("/api/v1/users", userRouter);         //this route will act as prefix... http://localhost:8000/api/v1/users/register.
-//we just need to include the above route and all other routes for users can be written without changing anything here.
+//syntax app.use(route, router)
+//we just need to include the above route and all other routes for users can be written in the user routes without changing anything here.
 
 
 

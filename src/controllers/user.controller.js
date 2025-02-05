@@ -5,16 +5,19 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler(async (req, res) => {
+
+  //steps to be done in the registerUser Controller...
   //get user details from frontend.
   //validation - not empty.
   //check if user already exists: username, email
-  //check for images, check for avatar
+  //check for coverimages, check for avatar
   // upload them to cloudinary, avatar(properly upload?), extract url from the response
   // create user object - create entry in db.
   // remove password and refresh token field from response, since when we create an object in mongodb, it return back and we dont want to show that to user
   //check for user creation
   //return response
 
+  //Step 1: get user details from frontend/postman.. at the moment only asking N extracting the required fields(data handling)
   const { username, fullName, email, password } = req.body;
   console.log("username: ", username);
   console.log("email: ", email)
@@ -32,10 +35,11 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new ApiError(400, "All fields are compulsory")
     }
 
-    //To check if the username or email already exists in the database or not.
+    //To check if the username or email already exists in the database or not. using the or operator $ to check if any of those 2 exist 
 
     const existUser = User.findOne({
       $or: [{ username }, { email }]
+
     })
 
     if(existUser){
@@ -43,7 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 
-    //multer gives us req.files ka access
+    //multer gives us req.files ka access just how express gives us the excess of req.body
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
@@ -71,7 +75,7 @@ const registerUser = asyncHandler(async (req, res) => {
     })
 
     const CreatedUser = await User.findById(user._id).select(
-      "-password -refreshToken"                      //jo jo field nhi chahiye while finding or selecting the user object.
+      "-password -refreshToken"                      //jo jo field nhi chahiye while returing (finding or selecting) the user object.
     );
 
     if(!CreatedUser)
