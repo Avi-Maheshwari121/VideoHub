@@ -1,8 +1,8 @@
 //middleware to find out if the user is authenticated or not i.e. logged in or not.
 
-import { User } from "../models/user.models";
-import { ApiError } from "../utils/ApiErrors";
-import { asyncHandler } from "../utils/asyncHandler";
+import { User } from "../models/user.models.js";
+import { ApiError } from "../utils/ApiErrors.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
 
 
@@ -17,6 +17,7 @@ try {
         }
     
         const decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        console.log(decodeToken)
     
         const user = await User.findById(decodeToken?._id).select("-password -refreshToken")   //because access token contains the id of user... look at the userModel.
     
